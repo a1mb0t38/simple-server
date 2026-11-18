@@ -1,19 +1,11 @@
 import type { Request, Response } from "express";
 import { pool } from "../../db";
+import { userService } from "./user.service";
 
 const createUser = async (req: Request, res: Response) => {
   // console.log(req.body)
   try {
-    const { name, email, password, age } = req.body;
-    // console.log(password)
-
-    const result = await pool.query(
-      `
-      INSERT INTO users(name, email, password, age) VALUES ($1,$2,$3,$4) RETURNING *
-      
-      `,
-      [name, email, password, age],
-    );
+    const result = await userService.userIntoDB(req.body)
 
     // console.log(result)
 
