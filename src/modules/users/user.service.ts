@@ -1,18 +1,25 @@
 import { pool } from "../../db";
 import type { IUser } from "./user.interface";
+import bcrypt from "bcryptjs";
 
 
 const userIntoDB = async(payload: IUser) =>{
     const { name, email, password, age } = payload;
     // console.log(password)
 
+    const hashPassword = await bcrypt.hash(password, 10)
+    // console.log(hash)
+
     const result = await pool.query(
       `
       INSERT INTO users(name, email, password, age) VALUES ($1,$2,$3,$4) RETURNING *
       
       `,
-      [name, email, password, age],
+      [name, email, hashPassword, age],
     );
+
+    delete result.rows[0].password //this is for now showing the password in data. not to delete the password.
+
     return result
 }
 
