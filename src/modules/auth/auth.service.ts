@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { pool } from "../../db";
+import jwt from "jsonwebtoken";
 
 
 const loginUserIntoApp =async (payload: {email: string, password: string})=>{
@@ -28,7 +29,14 @@ const loginUserIntoApp =async (payload: {email: string, password: string})=>{
             throw new Error("user is not active")
         }
 
+        const jwtPayload = {
+            id: user.rows[0].id,
+            name: user.rows[0].name,
+            email: user.rows[0].email
+        }
 
+        const accessToken = jwt.sign(jwtPayload, "thisisthesecret", {expiresIn:"1d",})
+        return {accessToken, user: user.rows[0]}
 
 }
 
