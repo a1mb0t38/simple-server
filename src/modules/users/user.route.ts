@@ -1,13 +1,16 @@
-import { Router} from "express";
+import { Router, type NextFunction, type Request, type Response} from "express";
 import { userController } from "./user.controller";
+import auth from "../../middleware/auth";
 
 
 
 const router = Router()
 
+
+
 router.post("/", userController.createUser);
 
-router.get("/", userController.getUser)
+router.get("/", auth, userController.getUser)
 
 
 router.get("/:id", userController.getUserById)
