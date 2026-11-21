@@ -3,7 +3,9 @@ import jwt, { type JwtPayload } from 'jsonwebtoken';
 import config from "../config";
 import { pool } from "../db";
 
-const auth = async(req: Request, res: Response, next: NextFunction) => {
+const auth = (...roles: any) =>{
+  return async(req: Request, res: Response, next: NextFunction) => {
+    // console.log(roles)
   //1. check if the token exist
   // console.log("this is protected route")
   // console.log(req.headers.authorization)
@@ -41,9 +43,10 @@ const auth = async(req: Request, res: Response, next: NextFunction) => {
     }
 
     req.user = decode;
-    console.log(req)
+    // console.log(req)
 
   next();
 };
+}
 
 export default auth;
