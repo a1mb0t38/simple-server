@@ -5,6 +5,18 @@ const loginUser = async (req: Request, res: Response) => {
   try {
     const result = await authService.loginUserIntoApp(req.body)
 
+    const { refreshToken } = result;
+
+    res.cookie("refreshToken",refreshToken,{
+      secure: false, // http -> false, https -> true, In Production -> true
+      httpOnly: true,
+      sameSite: "lax", // "none", "strict", "lax"
+      // maxAge: 
+      path: "/",
+      domain: "localhost",
+      
+    })
+
     res.status(201).json({
       success: true,
       message: "User login successfully",

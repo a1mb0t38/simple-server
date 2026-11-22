@@ -37,8 +37,11 @@ const loginUserIntoApp =async (payload: {email: string, password: string})=>{
             role: user.rows[0].role
         }
 
-        const accessToken = jwt.sign(jwtPayload, config.jwt_secret, {expiresIn:"1d",})
-        return {accessToken, user: user.rows[0]}
+        const accessToken = jwt.sign(jwtPayload, config.jwt_secret, {expiresIn:"1h",})
+
+        const refreshToken = jwt.sign(jwtPayload, config.refresh_secret, {expiresIn: "10d"})
+
+        return {accessToken, refreshToken, user: user.rows[0]}
 
 }
 
