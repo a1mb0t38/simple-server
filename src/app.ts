@@ -7,6 +7,7 @@ import { authroute } from "./modules/auth/auth.route";
 import { METHODS } from "http";
 import fs from "fs"
 import logger from "./middleware/logger";
+import globalErrorHandler from "./middleware/globalErrorHandler";
 
 
 const app: Application = express();
@@ -35,5 +36,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/v1/users", userRoute)
 app.use("/api/v1/profiles", profileRoute)
 app.use("/api/v1/auth", authroute)
+
+app.use(globalErrorHandler)
 
 export default app;
