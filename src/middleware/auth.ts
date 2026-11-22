@@ -42,6 +42,14 @@ const auth = (...roles: any) =>{
     });
     }
 
+    if(roles.length && !roles.includes(user.rows[0].role)){
+      res.status(401).json({
+      success: false,
+      message: "Unauthorized access",
+    //   data: result.rows[0],
+    });
+    }
+
     req.user = decode;
     // console.log(req)
 
