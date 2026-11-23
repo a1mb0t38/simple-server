@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { authService } from "./auth.service";
+import sendResponse from "../../utils/sendResponse";
 
 const loginUser = async (req: Request, res: Response) => {
   try {
@@ -17,18 +18,31 @@ const loginUser = async (req: Request, res: Response) => {
 
     })
 
-    res.status(201).json({
+    // res.status(200).json({
+    //   success: true,
+    //   message: "User login successfully",
+    //   data: result,
+    // });
+
+    sendResponse(res,{
+      statusCode: 200,
       success: true,
       message: "User login successfully",
       data: result,
-    });
+    })
 
   } catch (error: any) {
-    res.status(500).json({
+    // res.status(500).json({
+    //   success: false,
+    //   message: error.message,
+    //   data: error,
+    // });
+    sendResponse(res,{
+      statusCode: 500,
       success: false,
-      message: error.message,
+      message: "User login unsuccessfully",
       data: error,
-    });
+    })
   }
 };
 
@@ -38,18 +52,31 @@ const generateToken = async (req: Request, res: Response) => {
 
     // console.log(req.cookies.refreshToken)
 
-    res.status(201).json({
+    // res.status(201).json({
+    //   success: true,
+    //   message: "Access token generated successfully",
+    //   data: result,
+    // });
+
+    sendResponse(res,{
+      statusCode: 201,
       success: true,
       message: "Access token generated successfully",
       data: result,
-    });
+    })
 
   } catch (error: any) {
-    res.status(500).json({
+    // res.status(500).json({
+    //   success: false,
+    //   message: error.message,
+    //   data: error,
+    // });
+    sendResponse(res,{
+      statusCode: 500,
       success: false,
       message: error.message,
       data: error,
-    });
+    })
   }
 };
 
